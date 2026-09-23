@@ -1,0 +1,19 @@
+﻿# SQL Server local database files
+*.mdf
+*.ndf
+*.ldf
+
+# SSMS backup files
+*.bak
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE / OS files
+.vscode/
+.idea/
+*.user
+*.suo
+Thumbs.db
