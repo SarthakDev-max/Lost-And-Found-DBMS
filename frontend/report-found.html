@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Found Item | Lost & Found</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .report-page {
+            min-height: calc(100vh - 72px);
+            background: #f8fafc;
+            padding: 45px 20px;
+        }
+
+        .report-container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .report-card {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .report-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dcfce7;
+            border-radius: 50%;
+            font-size: 32px;
+        }
+
+        .report-header h1 {
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .report-header p {
+            color: #64748b;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 8px;
+            background: #16a34a;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #15803d;
+        }
+
+        .form-message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .back-dashboard {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 650px) {
+            .report-card {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+
+        <div class="logo">
+            &#128269; Lost<span>&</span>Found
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="nav-btn">Register</a>
+        </nav>
+
+    </header>
+
+
+    <!-- Report Found Item -->
+    <main class="report-page">
+
+        <div class="report-container">
+
+            <a href="dashboard.html" class="back-dashboard">
+                &#8592; Back to Dashboard
+            </a>
+
+            <div class="report-card">
+
+                <div class="report-header">
+
+                    <div class="report-icon">
+                        &#128269;
+                    </div>
+
+                    <h1>Report Found Item</h1>
+
+                    <p>
+                        Provide details about the item you have found.
+                    </p>
+
+                </div>
+
+
+                <form id="foundItemForm">
+
+                    <!-- Item Name -->
+                    <div class="form-group">
+
+                        <label for="foundItemName">
+                            Item Name <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="foundItemName"
+                            name="itemName"
+                            placeholder="e.g. Black Wallet"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Category + Location -->
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="foundCategory">
+                                Category <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="foundCategory"
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option value="Electronics">
+                                    Electronics
+                                </option>
+
+                                <option value="Documents">
+                                    Documents
+                                </option>
+
+                                <option value="Wallet">
+                                    Wallet
+                                </option>
+
+                                <option value="Keys">
+                                    Keys
+                                </option>
+
+                                <option value="Jewellery">
+                                    Jewellery
+                                </option>
+
+                                <option value="Bags">
+                                    Bags
+                                </option>
+
+                                <option value="Books">
+                                    Books
+                                </option>
+
+                                <option value="Clothing">
+                                    Clothing
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="foundLocation">
+                                Location Found <span class="required">*</span>
+                            </label>
+
+                            <select
+                                id="foundLocation"
+                                name="location"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Location
+                                </option>
+
+                                <option value="Main Gate">Main Gate</option>
+                                <option value="Library">Library</option>
+                                <option value="Canteen">Canteen</option>
+                                <option value="Computer Lab">Computer Lab</option>
+                                <option value="Mechanical Lab">Mechanical Lab</option>
+                                <option value="Classroom Block A">Classroom Block A</option>
+                                <option value="Classroom Block B">Classroom Block B</option>
+                                <option value="Parking Area">Parking Area</option>
+                                <option value="Hostel">Hostel</option>
+                                <option value="Sports Ground">Sports Ground</option>
+                                <option value="Auditorium">Auditorium</option>
+                                <option value="Lab 3">Lab 3</option>
+                                <option value="Block 2">Block 2</option>
+                                <option value="Other">Other</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Color + Brand -->
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="foundColor">
+                                Color
+                            </label>
+
+                            <input
+                                type="text"
+                                id="foundColor"
+                                name="color"
+                                placeholder="e.g. Black"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="foundBrand">
+                                Brand
+                            </label>
+
+                            <input
+                                type="text"
+                                id="foundBrand"
+                                name="brand"
+                                placeholder="e.g. HP, Dell, Nike"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Date -->
+                    <div class="form-group">
+
+                        <label for="dateFound">
+                            Date Found <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="date"
+                            id="dateFound"
+                            name="dateFound"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Description -->
+                    <div class="form-group">
+
+                        <label for="foundDescription">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="foundDescription"
+                            name="description"
+                            placeholder="Describe the item, identifying marks, stickers, etc."
+                        ></textarea>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        Submit Found Item
+                    </button>
+
+                    <p
+                        id="foundItemMessage"
+                        class="form-message"
+                    ></p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
+
+
+
+

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Claims | Lost & Found</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background: #f4f7fb;
+            margin: 0;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 10px;
+            font-size: 38px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        #claimsResults {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .claim-card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .claim-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .claim-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .claim-title h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #0f172a;
+        }
+
+        .status-badge {
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .claim-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .claim-details div {
+            background: #f8fafc;
+            padding: 12px 14px;
+            border-radius: 8px;
+            color: #334155;
+        }
+
+        .claim-description {
+            margin-top: 18px;
+            padding: 15px;
+            background: #f8fafc;
+            border-top: 1px solid #e5e7eb;
+            border-radius: 8px;
+            color: #334155;
+        }
+
+        .claim-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .approve-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background: #15803d;
+        }
+
+        .reject-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background: #b91c1c;
+        }
+
+        .loading,
+        .empty,
+        .error {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 16px;
+            color: #64748b;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.06);
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        @media (max-width: 700px) {
+
+            .claim-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .claim-details {
+                grid-template-columns: 1fr;
+            }
+
+            .claim-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<script>
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+    if (!loggedInUser || loggedInUser.Role !== "Admin") {
+        alert("Access denied. Admin only.");
+        window.location.href = "index.html";
+    }
+</script>
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                &#128269; Lost & Found
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="admin-claims.html">Admin Claims</a>
+                <a href="#" id="logoutBtn">Logout</a>
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <main class="page-container">
+
+        <div class="page-header">
+
+            <h1>Admin Claims Management</h1>
+
+            <p>
+                Review and manage claims submitted by users.
+            </p>
+
+        </div>
+
+
+        <div id="claimsResults">
+
+            <div class="loading">
+                Loading claims...
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+
+    <script>
+
+        const adminClaimsResults =
+            document.getElementById("claimsResults");
+
+
+        async function loadAllClaims() {
+
+            try {
+
+                const response = await fetch(
+                    "http://localhost:5000/api/claims/all"
+                );
+
+                const data = await response.json();
+
+
+                if (!data.success) {
+
+                    adminClaimsResults.innerHTML = `
+                        <div class="error">
+                            ${data.message || "Unable to load claims."}
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                if (!data.claims || data.claims.length === 0) {
+
+                    adminClaimsResults.innerHTML = `
+                        <div class="empty">
+                            No claims have been submitted yet.
+                        </div>
+                    `;
+
+                    return;
+                }
+
+
+                adminClaimsResults.innerHTML = "";
+
+
+                data.claims.forEach(claim => {
+
+                    const card =
+                        document.createElement("div");
+
+                    card.className = "claim-card";
+
+
+                    const status =
+                        (claim.Status || "Pending").toLowerCase();
+
+
+                    let statusClass =
+                        "status-pending";
+
+
+                    if (status === "approved") {
+                        statusClass = "status-approved";
+                    }
+
+                    if (status === "rejected") {
+                        statusClass = "status-rejected";
+                    }
+
+
+                    const claimDate =
+                        new Date(
+                            claim.ClaimDate
+                        ).toLocaleString();
+
+
+                    card.innerHTML = `
+
+                        <div class="claim-top">
+
+                            <div class="claim-title">
+
+                                <span>&#128221;</span>
+
+                                <h3>
+                                    ${claim.ItemName}
+                                </h3>
+
+                            </div>
+
+                            <span class="status-badge ${statusClass}">
+                                ${claim.Status}
+                            </span>
+
+                        </div>
+
+
+                        <div class="claim-details">
+
+                            <div>
+                                <strong>Claim ID:</strong>
+                                ${claim.ClaimID}
+                            </div>
+
+                            <div>
+                                <strong>User:</strong>
+                                ${claim.FullName}
+                            </div>
+
+                            <div>
+                                <strong>Email:</strong>
+                                ${claim.Email}
+                            </div>
+
+                            <div>
+                                <strong>Found Item ID:</strong>
+                                ${claim.FoundItemID}
+                            </div>
+
+                            <div>
+                                <strong>Category:</strong>
+                                ${claim.CategoryName || "Not specified"}
+                            </div>
+
+                            <div>
+                                <strong>Location:</strong>
+                                ${claim.LocationName || "Not specified"}
+                            </div>
+
+                            <div>
+                                <strong>Color:</strong>
+                                ${claim.Color || "Not specified"}
+                            </div>
+
+                            <div>
+                                <strong>Brand:</strong>
+                                ${claim.Brand || "Not specified"}
+                            </div>
+
+                            <div>
+                                <strong>Claim Date:</strong>
+                                ${claimDate}
+                            </div>
+
+                        </div>
+
+
+                        <div class="claim-description">
+
+                            <strong>User's Claim:</strong>
+
+                            <br><br>
+
+                            ${claim.ClaimDescription}
+
+                        </div>
+
+
+                        ${
+                            claim.Status === "Pending"
+                            ? `
+
+                                <div class="claim-actions">
+
+                                    <button
+                                        class="action-btn approve-btn"
+                                        onclick="approveClaim(${claim.ClaimID})">
+                                        &#10003; Approve
+                                    </button>
+
+                                    <button
+                                        class="action-btn reject-btn"
+                                        onclick="rejectClaim(${claim.ClaimID})">
+                                        &#10007; Reject
+                                    </button>
+
+                                </div>
+
+                            `
+                            : ""
+                        }
+
+                    `;
+
+
+                    adminClaimsResults.appendChild(card);
+
+                });
+
+
+            } catch (error) {
+
+                console.error(
+                    "Admin claims error:",
+                    error
+                );
+
+                adminClaimsResults.innerHTML = `
+                    <div class="error">
+                        Unable to connect to server.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+async function approveClaim(claimID) {
+
+    const confirmed = confirm(
+        "Are you sure you want to approve this claim?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:5000/api/claims/${claimID}/approve`,
+            {
+                method: "PUT"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            alert(data.message || "Unable to approve claim.");
+
+            return;
+        }
+
+        alert("Claim approved successfully.");
+
+        loadAllClaims();
+
+    } catch (error) {
+
+        console.error("Approve claim error:", error);
+
+        alert("Unable to connect to server.");
+
+    }
+}
+
+
+async function rejectClaim(claimID) {
+
+    const confirmed = confirm(
+        "Are you sure you want to reject this claim?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `http://localhost:5000/api/claims/${claimID}/reject`,
+            {
+                method: "PUT"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            alert(data.message || "Unable to reject claim.");
+
+            return;
+        }
+
+        alert("Claim rejected successfully.");
+
+        loadAllClaims();
+
+    } catch (error) {
+
+        console.error("Reject claim error:", error);
+
+        alert("Unable to connect to server.");
+
+    }
+}
+        loadAllClaims();
+
+    </script>
+
+</body>
+
+</html>
+
+

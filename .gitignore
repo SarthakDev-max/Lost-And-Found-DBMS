@@ -17,3 +17,12 @@
 *.user
 *.suo
 Thumbs.db
+
+# Node.js dependencies
+node_modules/
+
+# Local backup files
+*_backup_*.js
+
+# Frontend backup folder
+frontend_backup_before_emoji_fix/

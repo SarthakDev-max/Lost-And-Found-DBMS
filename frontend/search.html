@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Items - Lost & Found</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .search-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .search-row.two {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .search-row input,
+        .search-row select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background: white;
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .results-box {
+            margin-top: 30px;
+        }
+
+        .result-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .result-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-title h3 {
+            margin: 0;
+        }
+
+        .type-badge,
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .lost-badge {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .found-badge {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-badge {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .result-description {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .loading,
+        .empty,
+        .error {
+            text-align: center;
+            padding: 35px;
+            background: white;
+            border-radius: 15px;
+            color: #555;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        @media (max-width: 800px) {
+            .search-row,
+            .search-row.two {
+                grid-template-columns: 1fr;
+            }
+
+            .result-details {
+                grid-template-columns: 1fr;
+            }
+
+            .result-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                Lost & Found
+            </div>
+
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="login.html">Login</a>
+                <a href="register.html" class="nav-btn">Register</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main class="search-container">
+
+    <div style="text-align:center; margin-bottom:30px;">
+        <h1>Search Lost & Found Items</h1>
+        <p>Search items reported by students on campus.</p>
+    </div>
+
+    <div class="search-box">
+
+        <form id="searchForm">
+
+            <!-- ROW 1 -->
+            <div class="search-row">
+
+                <input
+                    type="text"
+                    id="searchKeyword"
+                    placeholder="Search item..."
+                >
+
+                <input
+                    type="text"
+                    id="searchColor"
+                    placeholder="Color..."
+                >
+
+                <input
+                    type="text"
+                    id="searchBrand"
+                    placeholder="Brand..."
+                >
+
+                <select id="searchCategory">
+                    <option value="">All Categories</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Documents">Documents</option>
+                    <option value="Wallet">Wallet</option>
+                    <option value="Keys">Keys</option>
+                    <option value="Jewellery">Jewellery</option>
+                    <option value="Bags">Bags</option>
+                    <option value="Books">Books</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Other">Other</option>
+                </select>
+
+            </div>
+
+            <!-- ROW 2 -->
+            <div class="search-row two">
+
+                <select id="searchLocation">
+                    <option value="">All Locations</option>
+                    <option value="Main Gate">Main Gate</option>
+                    <option value="Library">Library</option>
+                    <option value="Canteen">Canteen</option>
+                    <option value="Computer Lab">Computer Lab</option>
+                    <option value="Mechanical Lab">Mechanical Lab</option>
+                    <option value="Classroom Block A">Classroom Block A</option>
+                    <option value="Classroom Block B">Classroom Block B</option>
+                    <option value="Parking Area">Parking Area</option>
+                    <option value="Hostel">Hostel</option>
+                    <option value="Sports Ground">Sports Ground</option>
+                    <option value="Auditorium">Auditorium</option>
+                    <option value="Lab 3">Lab 3</option>
+                    <option value="Block 2">Block 2</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <select id="searchType">
+                    <option value="">Lost + Found</option>
+                    <option value="Lost">Lost Items</option>
+                    <option value="Found">Found Items</option>
+                </select>
+
+            </div>
+
+            <button type="submit" class="search-btn">
+                🔍 Search Items
+            </button>
+
+        </form>
+
+    </div>
+
+    <div id="searchResults" class="results-box">
+
+        <div class="empty">
+            Search for an item to see results.
+        </div>
+
+    </div>
+
+</main>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | Lost & Found</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .auth-page {
+            min-height: calc(100vh - 72px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #eff6ff, #ffffff);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
+        }
+
+        .auth-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dbeafe;
+            border-radius: 50%;
+            font-size: 30px;
+        }
+
+        .auth-card h1 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        .login-role-options {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .role-option {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .role-option input {
+            display: none;
+        }
+
+        .role-option span {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            color: #374151;
+            background: #ffffff;
+            transition: 0.2s;
+        }
+
+        .role-option input:checked + span {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 700;
+        }
+        .login-btn {
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .auth-message {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .auth-footer {
+            margin-top: 25px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: #2563eb;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        @media (max-width: 650px) {
+            .auth-card {
+                padding: 28px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="logo">
+            &#128269; Lost<span>&</span>Found
+        </div>
+
+        <nav>
+          
+    <a href="index.html">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#how-it-works">How It Works</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="login.html" class="active">Login</a>
+    <a href="register.html" class="nav-btn">Register</a>
+        </nav>
+    </header>
+
+
+    <!-- Login -->
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-icon">&#128269;ê</div>
+
+            <h1>Welcome Back</h1>
+
+            <p class="auth-subtitle">
+                Login to your Lost & Found account
+            </p>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+                    <label>Login As</label>
+
+                    <div class="login-role-options">
+                        <label class="role-option">
+                            <input type="radio" name="loginRole" value="User" checked>
+                            <span>User</span>
+                        </label>
+
+                        <label class="role-option">
+                            <input type="radio" name="loginRole" value="Admin">
+                            <span>Admin</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn primary-btn login-btn"
+                >
+                    Login
+                </button>
+
+                <p id="loginMessage" class="auth-message"></p>
+
+            </form>
+
+
+            <div class="auth-footer">
+                Don't have an account?
+                <a href="register.html">Create Account</a>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
+
+
+
+
